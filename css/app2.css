@@ -1,0 +1,27 @@
+h1{
+    text-align: center;
+}
+
+.two-sentences::after {
+    content: '\00B7'; /* Unicode cho dấu chấm */
+    font-size: 3.0em; /* Điều chỉnh kích thước của dấu chấm */
+    vertical-align: middle; /* Canh chỉnh dấu chấm giữa hai chữ */
+    margin-left: 10px; /* Khoảng cách giữa dấu chấm và chữ */
+  }
+  span{
+    text-align: center;
+  }
+  
+
+div{
+    text-align: center;
+}
+
+h2{
+    text-align: center;
+    border-bottom: 2px solid #000;
+}
+
+table{
+    text-align: left;
+}
