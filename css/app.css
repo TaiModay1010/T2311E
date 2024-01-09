@@ -1,0 +1,21 @@
+body{
+    background-image: url('../images/MDT.jpg');
+    background-size: over;
+}
+h1{
+    color: #bd5252; 
+}
+
+p{
+    color: #d7741e;
+    font-size: 18px;
+    line-height: 1.5;
+    font-family: Arial, Helvetica, Sans-serif;
+    text-align: justify;
+    text-decoration: underline;
+    text-transform: none /* uppercase lowercase;*/;
+    font-weight: 500;
+    background-color: aliceblue;
+    width: 600px;
+    border-bottom: #12e64e;
+}
