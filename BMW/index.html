@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/acc.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>Create Account</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Create Account</h1>
+        <h4>Get started with your free account</h4>
+        <div class="login">
+            <div class="login_twitter">
+                <button type="submit" style="background-color: rgb(9, 153, 143);"><span class="material-symbols-outlined">flutter_dash</span>   Login via Twitter</button>
+            </div>
+            <div class="login_facebook">
+                <button type="submit" style="background-color: #4267b2;"><span class="material-symbols-outlined">import_contacts</span>  Login via Facebook</button>
+            </div>
+        </div>
+        <form action="/register" method="post">
+            <div class="witerlogin">
+                <p><span class="material-symbols-outlined">person</span></p>
+                <input type="text" name="fullname" placeholder="Full Name" requireed>
+            </div>
+            <div class="witerlogin">
+                <p><span class="material-symbols-outlined">mail</span></p>
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="witerlogin">
+                <p><span class="material-symbols-outlined">phone_enabled</span></p>
+                <select name="tel">
+                    <option value="+84">+84</option>
+                    <option value="+83">+83</option>
+                    <option value="+82">+82</option>
+                    <option value="+81">+81</option>
+                </select>
+                <input type="tel" name="phone" placeholder="Phone Number" required style="width: 1300px; height: 40px;">
+            </div>
+            <div class="witerlogin">
+                <p><span class="material-symbols-outlined">fact_check</span></p>
+                <select name="jobtype">
+                    <option value="developer">Select job type</option>
+                    <option value="designer">Designer</option>
+                    <option value="manager">Manager</option>
+                    <option value="Accounting">Accounting</option>
+                </select>
+            </div>
+            <div class="witerlogin">
+                <p><span class="material-symbols-outlined">lock</span></p>
+                <input type="password" name="password" placeholder=" Create Password" required>
+            </div>
+            <div class="witerlogin">
+                <p><span class="material-symbols-outlined">lock</span></p>
+                <input type="password" name="repeatpassword" placeholder="Required Password" required>
+            </div>
+            <button type="submit">Create Account</button>
+        </form>
+        <p>Have an account? <a href="/login">Log in</a></p>
+    </div>
+</body>
+</html>
