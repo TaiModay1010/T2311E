@@ -107,4 +107,29 @@ WHERE
 ALTER TABLE SoDienThoai
 ADD Ngay_Bat_Dau_Lien_Lac DATE;
 
-CREATE INDEX idx_SDT ON SoDienThoai(SDT);
+CREATE INDEX IX_HoTen ON DANHBA(Ho_Va_Ten);
+
+CREATE INDEX IX_SoDienThoai ON  SoDienThoai(SDT);
+
+CREATE VIEW View_SoDienThoai
+AS
+SELECT
+    d.Ho_Va_Ten,
+    s.SDT
+FROM
+    DANHBA d
+JOIN
+    SoDienThoai s ON d.ID = s.ID_SDT;
+
+CREATE VIEW View_SinhNhat
+AS
+SELECT
+    d.Ho_Va_Ten,
+    d.Ngay_Sinh,
+    s.SDT
+FROM
+    DANHBA d
+JOIN
+    SoDienThoai s ON d.ID = s.ID_SDT
+WHERE
+    MONTH(d.Ngay_Sinh) = MONTH(GETDATE());
