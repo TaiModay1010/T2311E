@@ -1,0 +1,110 @@
+CREATE TABLE DANHBA(
+ID INT PRIMARY KEY IDENTITY(1,1),
+Ho_Va_Ten varchar(50),
+Dia_Chi varchar(50),
+Ngay_Sinh date);
+
+CREATE TABLE SoDienThoai(
+ID INT PRIMARY KEY IDENTITY(1,1),
+SDT VARCHAR(20),
+ID_SDT INT REFERENCES DANHBA(ID));
+
+INSERT INTO DANHBA(Ho_Va_Ten,Dia_Chi,Ngay_Sinh)
+VALUES('Nguyen Van An', '111 Nguyen trai, Thanh Xuan, Ha Noi', '1987-11-18'),
+('Nguyen Van Khang', '87 Trung Van, Bac Tu Liem, Ha Noi', '1998-12-12'),
+('Nguyen Van Thinh', '91 Cau Dien, Phu Dien, Ha Noi', '1999-01-23'),
+('Nguyen Van Vuong', '8A Ton That Thuyet, My Dinh, Ha Noi', '2006-10-10'),
+('Dang Thi Ha Nhung', '89 To Hieu, Thuong Tin, Ha Noi', '2009-12-12'),
+('Vu Thi Minh Thu', '206 Le Hoan, Phu Xuyen, Ha Noi', '2006-10-10');
+
+
+INSERT INTO SoDienThoai(ID_SDT,SDT)
+VALUES('1','987654321'),
+('1','09873452'),
+('1','09832323'),
+('1','09434343'),
+('2','987654467'),
+('2','987654942'),
+('2','987484321'),
+('3','987657823'),
+('4','987653329'),
+('4','987655321'),
+('4','937654781'),
+('5','087754321'),
+('6','123456789');
+
+SELECT * FROM DANHBA;
+SELECT * FROM SoDienThoai;
+
+SELECT Ho_Va_Ten FROM DANHBA ORDER BY Ho_Va_Ten ASC;
+
+SELECT * FROM SoDienThoai WHERE ID_SDT
+IN(SELECT ID FROM DANHBA WHERE Ho_Va_Ten = 'Nguyen van An');
+
+SELECT * FROM DANHBA WHERE Ngay_Sinh = '2009-12-12';
+
+SELECT d.Ho_Va_Ten, COUNT(s.ID) AS SoLuongSoDienThoai
+FROM DANHBA d
+LEFT JOIN SoDienThoai s ON d.ID = s.ID_SDT
+GROUP BY d.Ho_Va_Ten;
+
+SELECT COUNT(*) AS TongSoNguoi
+FROM DANHBA
+WHERE MONTH(Ngay_Sinh) = 12;
+
+SELECT d.Ho_Va_Ten, d.Dia_Chi, d.Ngay_Sinh, s.SDT
+FROM DANHBA d
+LEFT JOIN SoDienThoai s ON d.ID = s.ID_SDT;
+
+SELECT d.Ho_Va_Ten, d.Dia_Chi, d.Ngay_Sinh, s.SDT
+FROM DANHBA d
+LEFT JOIN SoDienThoai s ON d.ID = s.ID_SDT
+WHERE S.SDT = '123456789';
+
+UPDATE DANHBA
+SET Ngay_Sinh = DATEADD(day, -0 ,GETDATE()) 
+WHERE Ngay_Sinh < GETDATE();
+
+SELECT
+    fk.name AS ForeignKeyName,
+    tp.name AS TableName,
+    cp.name AS ColumnName,
+    rf.name AS ReferencedTable,
+    cr.name AS ReferencedColumn
+FROM 
+    sys.foreign_keys AS fk
+INNER JOIN 
+    sys.tables AS tp ON fk.parent_object_id = tp.object_id
+INNER JOIN 
+    sys.tables AS rf ON fk.referenced_object_id = rf.object_id
+INNER JOIN 
+    sys.foreign_key_columns AS fkc ON fkc.constraint_object_id = fk.object_id
+INNER JOIN 
+    sys.columns AS cp ON fkc.parent_column_id = cp.column_id AND fkc.parent_object_id = cp.object_id
+INNER JOIN 
+    sys.columns AS cr ON fkc.referenced_column_id = cr.column_id AND fkc.referenced_object_id = cr.object_id
+
+SELECT
+    fk.name AS ForeignKeyName,
+    tp.name AS TableName,
+    cp.name AS ColumnName,
+    rf.name AS ReferencedTable,
+    cr.name AS ReferencedColumn
+FROM 
+    sys.foreign_keys AS fk
+INNER JOIN 
+    sys.tables AS tp ON fk.parent_object_id = tp.object_id
+INNER JOIN 
+    sys.tables AS rf ON fk.referenced_object_id = rf.object_id
+INNER JOIN 
+    sys.foreign_key_columns AS fkc ON fkc.constraint_object_id = fk.object_id
+INNER JOIN 
+    sys.columns AS cp ON fkc.parent_column_id = cp.column_id AND fkc.parent_object_id = cp.object_id
+INNER JOIN 
+    sys.columns AS cr ON fkc.referenced_column_id = cr.column_id AND fkc.referenced_object_id = cr.object_id
+WHERE 
+    tp.name = 'SoDienThoai';
+ALTER TABLE SoDienThoai
+ADD Ngay_Bat_Dau_Lien_Lac DATE;
+
+CREATE INDEX idx_SDT ON SoDienThoai(SDT);
