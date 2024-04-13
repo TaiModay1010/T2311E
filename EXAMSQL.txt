@@ -1,0 +1,106 @@
+CREATE TABLE Teachers(
+TeacherID INT PRIMARY KEY,
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+Subject VARCHAR(50));
+
+CREATE TABLE Classes(
+ClassID INT PRIMARY KEY,
+ClassName VARCHAR(50),
+Teacher_ID INT FOREIGN KEY REFERENCES Teachers(TeacherID));
+
+CREATE TABLE Students(
+StudentID INT PRIMARY KEY,
+FirstName VARCHAR(50),
+LastName VARCHAR(50),
+Class_ID INT FOREIGN KEY REFERENCES Classes(ClassID),
+BrithDate DATE);
+
+INSERT INTO Teachers (TeacherID, FirstName, LastName, Subject) VALUES
+(1, 'Long', 'Tran', 'Toan'),
+(2, 'Linh', 'Nguyen', 'Ly'),
+(3, 'Huyen', 'Le', 'Hoa');
+
+INSERT INTO Classes (ClassID, ClassName, Teacher_ID) VALUES
+(10, 'Toan', 1),
+(12, 'Ly', 2),
+(14, 'Hoa', 3),
+(16, 'Anh', 1),
+(18, 'Sinh', 2);
+
+INSERT INTO Students (StudentID, FirstName, LastName, Class_ID, BrithDate) VALUES
+(1, 'Truong', 'Vu', 12, '2006-05-10'),
+(2, 'Thu', 'Thiem', 14, '2007-09-15'),
+(3, 'Tai', 'Nguyen', 16, '2006-02-20'),
+(4, 'Huy', 'Tram', 18, '2005-11-25'),
+(5, 'Anh', 'Nguyen', 10, '2004-07-30'),
+(6, 'Van', 'Le',12, '2006-03-05'),
+(7, 'Linh', 'Nguyen', 12, '2005-01-08'),
+(8, 'Hoa', 'Tran', 14, '2004-12-12'),
+(9, 'Tai', 'Duc', 18, '2006-06-18'),
+(10, 'Thu', 'Tran', 14, '2005-04-22');
+
+SELECT * FROM Classes;
+SELECT * FROM Teachers;
+SELECT * FROM Students;
+
+SELECT Students.FirstName AS StudentFirstName,
+Students.LastName AS StudentLastName,
+Classes.ClassName,
+Teachers.FirstName AS TeacherFirstName,
+Teachers.LastName AS TeacherLastName
+FROM  Students
+INNER JOIN Classes ON Students.Class_ID = Classes.ClassID
+INNER JOIN Teachers ON Classes.Teacher_ID = Teachers.TeacherID;
+
+SELECT * FROM Students WHERE YEAR(BrithDate) >=2000;
+
+SELECT 
+Students.FirstName AS StudentFirstName,
+Students.LastName AS StudentLastName,
+Classes.ClassName,
+Teachers.FirstName AS TeacherFirstName,
+Teachers.LastName AS TeacherLastName
+FROM Students
+INNER JOIN Classes ON Students.Class_ID = Classes.ClassID
+INNER JOIN Teachers ON Classes.Teacher_ID = Teachers.TeacherID
+ORDER BY Students.LastName;
+
+UPDATE Students
+SET FirstName = 'John', LastName = 'Doe' WHERE StudentID = 3;
+
+SELECT* FROM Students;
+
+DELETE FROM Students WHERE StudentID = 7;
+
+SELECT * FROM Students;
+
+CREATE PROCEDURE GetStudentsByClassAndSubject 
+    @ClassID INT,
+    @Subject VARCHAR(50)
+AS
+BEGIN
+    SELECT 
+        Students.FirstName,
+        Students.LastName
+    FROM 
+        Students
+    INNER JOIN Classes ON Students.Class_ID = Classes.ClassID
+    INNER JOIN Teachers ON Classes.Teacher_ID = Teachers.TeacherID
+    WHERE 
+        Classes.ClassID = @ClassID AND Teachers.Subject = @Subject;
+END;
+
+CREATE VIEW StudentsWithClassAndTeacher AS
+SELECT 
+    Students.StudentID,
+    Students.FirstName AS StudentFirstName,
+    Students.LastName AS StudentLastName,
+    Classes.ClassName,
+    Teachers.FirstName AS TeacherFirstName,
+    Teachers.LastName AS TeacherLastName
+FROM 
+    Students
+INNER JOIN Classes ON Students.Class_ID = Classes.ClassID
+INNER JOIN Teachers ON Classes.Teacher_ID = Teachers.TeacherID;
+
